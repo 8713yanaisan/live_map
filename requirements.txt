@@ -2,3 +2,4 @@ pydeck
 streamlit
 plotly
 pandas
+openpyxl
