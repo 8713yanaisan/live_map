@@ -12,6 +12,7 @@ import streamlit as st
 import pydeck as pdk
 import pygwalker as pyg
 
+st.set_page_config(layout="wide", initial_sidebar_state="auto")
 st.title("ライブ情報のダッシュボード")
 
   
