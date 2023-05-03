@@ -45,6 +45,8 @@ if filter_check:
     df = df[(df[fil].isin(selected_erea))]
 
 
+st.bar_chart(df_year)
+
 
 pyg.walk(df, env='Streamlit')
 
@@ -61,10 +63,3 @@ fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
 # Plot!
 st.plotly_chart(fig, use_container_width=True)
 
-
-
-
-
-fig2 = px.treemap(df, path=[px.Constant('artist')])
-# Plot!
-st.plotly_chart(fig2, use_container_width=True)
