@@ -29,14 +29,29 @@ clm=list(df.columns)
 
 df
 
+#集計結果表示
+df_groupby = df["artist"].value_counts()
+df_groupby
+
+df_year=df["year"].value_counts()
+df_year
+
+#TimeStampの変換するかどうか
+filter_check = st.checkbox('フィルターしますか')
+if filter_check:
+    fil=st.selectbox('filter',clm)
+    'filterは',fil,'です。'
+    selected_erea = st.multiselect('グラフに表示する要素を選択', list(set(list(df[fil]))))
+    df = df[(df[fil].isin(selected_erea))]
+
+
+
 pyg.walk(df, env='Streamlit')
 
 
 
 
 
-df_groupby = df["artist"].value_counts()
-df_groupby
 
 fig = px.pie(df_groupby, values="artist")
 fig.update_traces(textposition='inside')
@@ -48,13 +63,7 @@ st.plotly_chart(fig, use_container_width=True)
 
 
 
-#TimeStampの変換するかどうか
-filter_check = st.checkbox('フィルターしますか')
-if filter_check:
-    fil=st.selectbox('filter',clm)
-    'filterは',fil,'です。'
-    selected_erea = st.multiselect('グラフに表示する要素を選択', list(set(list(df[fil]))))
-    df = df[(df[fil].isin(selected_erea))]
+
 
 fig2 = px.treemap(df, path=[px.Constant('artist')])
 # Plot!
