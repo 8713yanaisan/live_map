@@ -1,4 +1,0 @@
-pydeck
-streamlit
-plotly
-pandas
