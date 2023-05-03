@@ -10,7 +10,7 @@ import plotly.express as px
 import os
 import streamlit as st
 import pydeck as pdk
-
+import pygwalker as pyg
 
 st.title("ライブ情報のダッシュボード")
 
@@ -23,6 +23,11 @@ df=pd.read_excel("Live info.xlsx")
 clm=list(df.columns)
 
 df
+
+pyg.walk(df, env='Streamlit')
+
+
+
 
 df_groupby = df.groupby("artist0",as_index=False)
 df_groupby = df["artist0"].value_counts()
