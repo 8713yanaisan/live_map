@@ -20,6 +20,10 @@ st.title("ライブ情報のダッシュボード")
 #df=pd.read_excel(r"D:\Pydoc\MyPythonScripts\streamlit_webapp\live_info\Live info.xlsx")
 df=pd.read_excel("Live info.xlsx")
 
+df["year"]=df["date"].str[:4]
+
+
+
 #列名のリスト
 clm=list(df.columns)
 
@@ -30,11 +34,11 @@ pyg.walk(df, env='Streamlit')
 
 
 
-df_groupby = df.groupby("artist0",as_index=False)
-df_groupby = df["artist0"].value_counts()
+
+df_groupby = df["artist"].value_counts()
 df_groupby
 
-fig = px.pie(df_groupby, values="artist0")
+fig = px.pie(df_groupby, values="artist")
 fig.update_traces(textposition='inside')
 fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
 
@@ -52,6 +56,6 @@ if filter_check:
     selected_erea = st.multiselect('グラフに表示する要素を選択', list(set(list(df[fil]))))
     df = df[(df[fil].isin(selected_erea))]
 
-fig2 = px.treemap(df, path=[px.Constant('artist0')])
+fig2 = px.treemap(df, path=[px.Constant('artist')])
 # Plot!
 st.plotly_chart(fig2, use_container_width=True)
