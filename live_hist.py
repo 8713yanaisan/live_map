@@ -52,11 +52,17 @@ df_groupby = df_artist["artist"].value_counts()
 df_year=df["year"].value_counts()
 
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 with col1:
     df_year
 with col2:
     df_groupby
+with col3:
+    fig = px.pie(df_artist, values="counts",names="artist")
+    fig.update_traces(textposition='inside', textinfo='percent+label')
+    fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
+    # Plot!
+    st.plotly_chart(fig, use_container_width=True)
 
 
 #フィルターするかどうか
@@ -64,16 +70,12 @@ df_fil=df
                
 filter_check = st.checkbox('フィルターしますか')
 if filter_check:
-    selected_year = st.multiselect('表示する年を選択', list(set(list(df_fil["year"]))))
-    try:
-        df_fil = df_fil[(df_fil["year"].isin(selected_year))]
-    except:
-        ""
-    selected_artist = st.multiselect('表示するartistを選択', list(set(list(df_fil["artist"]))))
-    try:
-        df_fil = df_fil[(df_fil["artist"].isin(selected_artist))]
-    except:
-        ""
+    selected_year = st.multiselect('表示する年を選択', list(set(list(df_fil["year"]))),default="2016")
+    df_fil = df_fil[(df_fil["year"].isin(selected_year))]
+
+    selected_artist = st.multiselect('表示するartistを選択', list(set(list(df_fil["artist"]))),default="ベボガ")
+    df_fil = df_fil[(df_fil["artist"].isin(selected_artist))]
+
     df_fil
     
     #集計結果表示
@@ -94,6 +96,7 @@ df_year['index'] = df_year.index
 df_year=df_year.rename(columns={'year': 'counts',"index":"year"}) 
 
 df_year
+
 fig = px.pie(df_artist, values="artist")
 fig.update_traces(textposition='inside', textinfo='percent+label')
 fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
