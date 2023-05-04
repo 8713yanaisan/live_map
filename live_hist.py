@@ -58,12 +58,8 @@ with col1:
 with col2:
     df_groupby
 with col3:
-    fig = px.pie(df_artist, values="counts",names="artist")
-    fig.update_traces(textposition='inside', textinfo='percent+label')
-    fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
-    # Plot!
-    st.plotly_chart(fig, use_container_width=True)
-
+    df_cross=pd.crosstab(df_artist['artist'], df_artist['year'])
+    df_cross
 
 #フィルターするかどうか
 df_fil=df
