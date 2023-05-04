@@ -54,33 +54,35 @@ df_year=df["year"].value_counts()
 df_year
 
 #フィルターするかどうか
+df_fil=df
 filter_check = st.checkbox('フィルターしますか')
 if filter_check:
-    fil=st.selectbox('filter',clm)
-    'filterは',fil,'です。'
-    selected_erea = st.multiselect('表示する要素を選択', list(set(list(df[fil]))))
-    df_fil = df[(df[fil].isin(selected_erea))]
+    selected_year = st.multiselect('表示する年を選択', list(set(list(df_fil["year"]))))
+    df_fil = df_fil[(df_fil["year"].isin(selected_year))]
+    selected_artist = st.multiselect('表示するartistを選択', list(set(list(df_fil["artist"]))))
+    df_fil = df_fil[(df_fil["artist"].isin(selected_artist))]
 
-df_fil
-
-#集計結果表示
-df_groupby_fil = df_fil["artist"].value_counts()
-df_groupby_fil
-
-df_year_fil=df_fil["year"].value_counts()
-df_year_fil
+    df_fil
+    
+    #集計結果表示
+    df_groupby_fil = df_fil["artist"].value_counts()
+    df_groupby_fil
+    
+    df_year_fil=df_fil["year"].value_counts()
+    df_year_fil
 
 st.bar_chart(df_year)
 
 
 pyg.walk(df, env='Streamlit')
 
+df_year=df["year"].value_counts()
+df_year=pd.DataFrame(df_year)
+df_year['index'] = df_year.index
+df_year=df_year.rename(columns={'year': 'counts',"index":"year"}) 
 
 
-
-
-
-fig = px.pie(df_groupby, values="artist")
+fig = px.pie(df_year, values="counts")
 fig.update_traces(textposition='inside')
 fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
 
