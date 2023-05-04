@@ -19,6 +19,7 @@ st.title("ライブ情報のダッシュボード")
     
 #df=pd.read_excel(r"D:\Pydoc\MyPythonScripts\streamlit_webapp\live_info\Live info.xlsx")
 df=pd.read_excel("Live info.xlsx")
+
 df=df.sort_values("date", ascending=False)
 df["year"]=df["date"].str[:4]
 
@@ -48,10 +49,15 @@ df
 
 #集計結果表示
 df_groupby = df_artist["artist"].value_counts()
-df_groupby
-
 df_year=df["year"].value_counts()
-df_year
+
+
+col1, col2 = st.columns(2)
+with col1:
+    df_year
+with col2:
+    df_groupby
+
 
 #フィルターするかどうか
 df_fil=df
@@ -82,8 +88,8 @@ df_year['index'] = df_year.index
 df_year=df_year.rename(columns={'year': 'counts',"index":"year"}) 
 
 
-fig = px.pie(df_year, values="counts")
-fig.update_traces(textposition='inside')
+fig = px.pie(df_year, values="year",names="year")
+fig.update_traces(textposition='inside', textinfo='percent+label')
 fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
 
 
