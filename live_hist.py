@@ -61,13 +61,19 @@ with col2:
 
 #フィルターするかどうか
 df_fil=df
+               
 filter_check = st.checkbox('フィルターしますか')
 if filter_check:
     selected_year = st.multiselect('表示する年を選択', list(set(list(df_fil["year"]))))
-    df_fil = df_fil[(df_fil["year"].isin(selected_year))]
+    try:
+        df_fil = df_fil[(df_fil["year"].isin(selected_year))]
+    except:
+        ""
     selected_artist = st.multiselect('表示するartistを選択', list(set(list(df_fil["artist"]))))
-    df_fil = df_fil[(df_fil["artist"].isin(selected_artist))]
-
+    try:
+        df_fil = df_fil[(df_fil["artist"].isin(selected_artist))]
+    except:
+        ""
     df_fil
     
     #集計結果表示
@@ -80,15 +86,15 @@ if filter_check:
 st.bar_chart(df_year)
 
 
-pyg.walk(df, env='Streamlit')
+
 
 df_year=df["year"].value_counts()
 df_year=pd.DataFrame(df_year)
 df_year['index'] = df_year.index
 df_year=df_year.rename(columns={'year': 'counts',"index":"year"}) 
 
-
-fig = px.pie(df_year, values="year",names="year")
+df_year
+fig = px.pie(df_artist, values="artist")
 fig.update_traces(textposition='inside', textinfo='percent+label')
 fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
 
@@ -96,3 +102,4 @@ fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
 # Plot!
 st.plotly_chart(fig, use_container_width=True)
 
+pyg.walk(df, env='Streamlit')
